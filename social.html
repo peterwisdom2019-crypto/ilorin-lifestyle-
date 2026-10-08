@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>People — Ilorin Lifestyle</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#f4f8f6;color:#101827}
+header{background:#fff;border-bottom:1px solid #e2e8e5;padding:18px 20px;position:sticky;top:0;z-index:5}
+.wrap{max-width:1000px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-size:23px;font-weight:850}.logo span{color:#16a34a}nav{display:flex;gap:16px;margin-top:14px}
+nav a{color:#172033;text-decoration:none;font-weight:650}.btn{border:0;border-radius:12px;padding:11px 15px;font-weight:750;cursor:pointer}
+.green{background:#16a34a;color:white}.light{background:#edf2ef;color:#172033;text-decoration:none}
+main{padding:32px 20px 60px}.hero h1{font-size:clamp(34px,7vw,58px);margin:0 0 10px}.hero p{font-size:18px;color:#52606d;max-width:680px}
+.search{display:flex;gap:10px;margin:24px 0}.search input{flex:1;padding:14px;border:1px solid #ccd5d0;border-radius:12px;font-size:16px;background:white}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:white;border:1px solid #dde5e1;border-radius:18px;padding:20px;box-shadow:0 8px 25px rgba(16,24,39,.05)}
+.avatar{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#dcfce7;color:#166534;font-size:22px;font-weight:800;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}
+.card h3{margin:14px 0 5px}.bio{color:#667085;min-height:45px}.meta{color:#7a8794;font-size:14px;margin:10px 0 16px}.status{display:none;margin-bottom:16px;padding:12px 14px;border-radius:12px;background:#eaf7ee;color:#176534}.empty{padding:35px;text-align:center;color:#68737e}
+@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.grid{grid-template-columns:1fr}.search{flex-direction:column}}
+</style></head>
+<body><header><div class="wrap"><div class="top"><div class="logo">Ilorin <span>Lifestyle</span></div><a class="btn light" href="/">Home</a></div><nav><a href="/social">People</a><a href="/account">My Account</a></nav></div></header>
+<main class="wrap"><section class="hero"><h1>Meet people in Ilorin.</h1><p>Discover members, follow people you like, and start building your digital lifestyle community.</p></section>
+<div id="status" class="status"></div><div class="search"><input id="search" placeholder="Search members by name..."><button class="btn green" onclick="loadMembers()">Search</button></div><section id="members" class="grid"></section></main>
+<script>
+const el=document.getElementById("members"),status=document.getElementById("status");
+function msg(x){status.textContent=x;status.style.display="block";setTimeout(()=>status.style.display="none",3000)}
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function ini(n){return n.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}
+function render(ms){if(!ms.length){el.innerHTML='<div class="empty">No members found yet.</div>';return}
+el.innerHTML=ms.map(m=>{let av=m.avatar_url?`<div class="avatar"><img src="${esc(m.avatar_url)}" alt=""></div>`:`<div class="avatar">${esc(ini(m.display_name))}</div>`;
+let b=m.is_following?`<button class="btn light" onclick="follow(${m.id},true)">Following</button>`:`<button class="btn green" onclick="follow(${m.id},false)">Follow</button>`;
+return `<article class="card">${av}<h3>${esc(m.display_name)}</h3><div class="bio">${esc(m.bio||"No bio yet.")}</div><div class="meta">${m.followers_count} follower${m.followers_count===1?"":"s"}</div>${b}</article>`}).join("")}
+async function loadMembers(){try{let q=encodeURIComponent(document.getElementById("search").value.trim()),r=await fetch("/api/members?search="+q),d=await r.json();if(!r.ok)throw Error(d.error||"Could not load members.");render(d.members||[])}catch(e){msg(e.message)}}
+async function follow(id,following){try{let r=await fetch("/api/follow/"+id,{method:following?"DELETE":"POST"}),d=await r.json();if(r.status===401){msg("Please log in first. Open My Account.");return}if(!r.ok)throw Error(d.error||"Something went wrong.");loadMembers()}catch(e){msg(e.message)}}
+document.getElementById("search").addEventListener("keydown",e=>{if(e.key==="Enter")loadMembers()});loadMembers();
+</script></body></html>
