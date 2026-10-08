@@ -245,7 +245,7 @@ app.get("/account", (_, res) => {
   res.sendFile(path.join(__dirname, "public", "account.html"));
 });
 
-app.get("*", (_, res) => {
+app.get("/{*splat}", (_, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
