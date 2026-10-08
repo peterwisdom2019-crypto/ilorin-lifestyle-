@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Ilorin Lifestyle — Virtual City</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f7fb;color:#111827}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #e5e7eb;padding:14px 5%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:900;font-size:21px}.logo span{color:#16a34a}.nav{display:flex;gap:18px;align-items:center}.nav a{text-decoration:none;color:#374151;font-weight:600}
+.btn{border:0;border-radius:12px;padding:11px 16px;background:#111827;color:white;font-weight:700;cursor:pointer}.btn.alt{background:#16a34a}.btn.light{background:#eef2f7;color:#111827}
+.hero{padding:72px 5% 55px;background:linear-gradient(135deg,#ecfdf5,#eff6ff 55%,#fff);display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}
+.hero h1{font-size:clamp(40px,6vw,72px);line-height:.98;margin:0 0 20px}.hero p{font-size:19px;line-height:1.6;color:#4b5563;max-width:650px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.city-card{background:#111827;border-radius:28px;padding:25px;color:white;min-height:330px;box-shadow:0 25px 60px #11182733}
+.map{height:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.district{border:1px solid #ffffff20;border-radius:18px;padding:17px;background:#ffffff10}.district b{display:block;margin-top:8px}.district small{color:#cbd5e1}
+section{padding:55px 5%}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}.section-head h2{font-size:32px;margin:0}.section-head p{color:#6b7280;margin:5px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:white;border:1px solid #e5e7eb;border-radius:20px;padding:22px;box-shadow:0 8px 25px #1118270a}.icon{font-size:34px}.card h3{margin:12px 0 7px}.card p{color:#6b7280;line-height:1.5}.pill{display:inline-block;background:#ecfdf5;color:#15803d;padding:6px 10px;border-radius:99px;font-size:12px;font-weight:800}
+.features{background:#111827;color:white}.features .card{background:#1f2937;border-color:#374151}.features .card p{color:#cbd5e1}
+footer{padding:30px 5%;background:#0b1220;color:#9ca3af;text-align:center}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:30;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modalbox{background:white;border-radius:22px;padding:25px;max-width:480px;width:100%}.modalbox input{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:10px;margin:8px 0 15px}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.nav a{display:none}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.hero{padding-top:45px}.city-card{min-height:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Ilorin <span>Lifestyle</span></div>
+  <nav class="nav"><a href="#city">Virtual City</a><a href="#features">Features</a><a href="#events">Events</a><button class="btn alt" onclick="openModal()">Join Free</button></nav>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <span class="pill">THE DIGITAL HOME OF ILORIN</span>
+    <h1>Experience Ilorin in a whole new way.</h1>
+    <p>Explore a virtual city, meet people, discover local places, join events and build your own digital lifestyle community.</p>
+    <div class="actions"><button class="btn alt" onclick="openModal()">Create Account</button><a class="btn light" href="#city" style="text-decoration:none">Explore City</a></div>
+  </div>
+  <div class="city-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px"><b>🌍 Virtual Ilorin</b><span class="pill">LIVE WORLD</span></div>
+    <div class="map" id="miniMap"></div>
+  </div>
+</section>
+
+<section id="city">
+  <div class="section-head"><div><h2>Explore the City</h2><p>Choose a district and start your virtual experience.</p></div></div>
+  <div class="grid" id="districts"></div>
+</section>
+
+<section class="features" id="features">
+  <div class="section-head"><div><h2>More than a website.</h2><p style="color:#9ca3af">A social world designed around Ilorin.</p></div></div>
+  <div class="grid">
+    <div class="card"><div class="icon">👥</div><h3>Meet People</h3><p>Create a profile, discover other members and build genuine connections.</p></div>
+    <div class="card"><div class="icon">💬</div><h3>Social Rooms</h3><p>Chat and hang out in city districts and community spaces.</p></div>
+    <div class="card"><div class="icon">🎮</div><h3>Games & XP</h3><p>Future-ready foundations for challenges, points, levels and leaderboards.</p></div>
+    <div class="card"><div class="icon">📅</div><h3>Events</h3><p>Create and discover virtual and real-world community events.</p></div>
+    <div class="card"><div class="icon">🛍️</div><h3>Local Business</h3><p>Give businesses digital storefronts and a place inside the city.</p></div>
+    <div class="card"><div class="icon">🛡️</div><h3>Safety First</h3><p>Reporting, blocking, moderation and responsible adult social features.</p></div>
+  </div>
+</section>
+
+<section id="events">
+  <div class="section-head"><div><h2>What's next</h2><p>We're building the first version of the virtual city.</p></div><button class="btn light" onclick="openModal()">Get Early Access</button></div>
+  <div class="card"><h3>🚀 Ilorin Lifestyle is coming online</h3><p>Accounts, profiles, social spaces, virtual districts and community features will be progressively connected to the production backend.</p></div>
+</section>
+</main>
+
+<footer>© 2026 Ilorin Lifestyle · Built for community, culture and connection.</footer>
+
+<div class="modal" id="modal"><div class="modalbox">
+  <button class="btn light" style="float:right" onclick="closeModal()">✕</button>
+  <h2>Join Ilorin Lifestyle</h2><p>Early access signup will be connected to the production account system next.</p>
+  <input placeholder="Display name">
+  <input type="email" placeholder="Email address">
+  <button class="btn alt" style="width:100%" onclick="alert('Your signup flow will be connected during the cloud deployment stage.')">Continue</button>
+</div></div>
+
+<script>
+async function loadCity(){
+  const r=await fetch('/api/city'); const d=await r.json();
+  const mini=document.getElementById('miniMap'), full=document.getElementById('districts');
+  mini.innerHTML=d.districts.map(x=>`<div class="district"><span style="font-size:26px">${x.icon}</span><b>${x.name}</b><small>Explore</small></div>`).join('');
+  full.innerHTML=d.districts.map(x=>`<article class="card"><div class="icon">${x.icon}</div><h3>${x.name}</h3><p>${x.desc}</p><button class="btn light" onclick="alert('District ready: ${x.name}')">Enter District</button></article>`).join('');
+}
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+loadCity();
+</script>
+</body></html>
